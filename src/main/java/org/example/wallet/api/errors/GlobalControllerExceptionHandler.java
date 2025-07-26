@@ -57,10 +57,12 @@ public class GlobalControllerExceptionHandler {
     public ErrorDtoResponse handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
         log.error("MethodArgumentTypeMismatchException: parameter '{}', value '{}', required type '{}'",
                 ex.getName(), ex.getValue(), ex.getRequiredType(), ex);
+        String expectedType =
+                ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "неизвестный тип";
 
         SingleErrorDto error = SingleErrorDto.builder()
                 .errorCode("INVALID_TYPE")
-                .message("Неверный тип параметра: " + ex.getName())
+                .message("Неверный тип параметра: " + ex.getName() + ". Ожидается " + expectedType)
                 .build();
 
         return ErrorDtoResponse.builder()
@@ -121,5 +123,4 @@ public class GlobalControllerExceptionHandler {
                 .errors(errors)
                 .build();
     }
-
 }

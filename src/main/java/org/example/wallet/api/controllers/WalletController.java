@@ -8,6 +8,8 @@ import org.example.wallet.api.dtos.wallet.WalletBalanceDto;
 import org.example.wallet.api.services.WalletService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/wallet")
@@ -22,8 +24,7 @@ public class WalletController {
     }
 
     @GetMapping(GET_BALANCE)
-    public WalletBalanceDto getBalance(@PathVariable("wallet_uuid") String walletUuid) {
+    public WalletBalanceDto getBalance(@PathVariable("wallet_uuid") UUID walletUuid) {
         return walletService.getBalance(walletUuid);
     }
-
 }
