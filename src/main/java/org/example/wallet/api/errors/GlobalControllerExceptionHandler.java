@@ -6,7 +6,6 @@ import org.example.wallet.api.dtos.error.SingleErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -63,21 +62,6 @@ public class GlobalControllerExceptionHandler {
         SingleErrorDto error = SingleErrorDto.builder()
                 .errorCode("INVALID_TYPE")
                 .message("Неверный тип параметра: " + ex.getName() + ". Ожидается " + expectedType)
-                .build();
-
-        return ErrorDtoResponse.builder()
-                .errors(List.of(error))
-                .build();
-    }
-
-    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-    public ErrorDtoResponse handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex) {
-        log.error("HttpMediaTypeNotSupportedException: {}", ex.getMessage(), ex);
-
-        SingleErrorDto error = SingleErrorDto.builder()
-                .errorCode("UNSUPPORTED_MEDIA_TYPE")
-                .message("Неподдерживаемый тип тела запроса")
                 .build();
 
         return ErrorDtoResponse.builder()
